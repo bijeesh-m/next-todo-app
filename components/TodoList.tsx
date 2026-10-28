@@ -6,17 +6,37 @@ type PageProps = {
     category: string,
     setCategory: Function
     todos: Todo[]
+    setTodos: Function
 }
 
-const TodoList = ({ category, setCategory, todos }: PageProps) => {
+const TodoList = ({ category, setCategory, todos, setTodos }: PageProps) => {
 
 
-    // const filteredTodos = useMemo(()=>{
-    //     if (condition) {
-            
-    //     }
-    //     return todos.filter((todo)=>todo.isActive)
-    // },[])
+    const filteredTodos = useMemo(() => {
+        if (category === "all") {
+            return todos
+        }
+        if (category === "active") {
+            return todos.filter((todo) => todo.isActive === true)
+        }
+        if (category === "completed") {
+            return todos.filter((todo) => todo.isActive === false)
+        }
+    }, [category, todos])
+
+
+    const toggleTodo = (id: string, checked: boolean) => {
+
+        setTodos(todos.map((todo: Todo) => {
+            if (todo.id === id) {
+                todo.isActive = !checked
+            }
+            return todo
+        }))
+
+    }
+
+    console.log(todos);
 
 
     return (
@@ -27,9 +47,9 @@ const TodoList = ({ category, setCategory, todos }: PageProps) => {
                 <button onClick={() => setCategory("completed")} className={` px-5 text-xs py-2 border-gray-300 border ${category === "completed" && "bg-blue-500 text-white"} rounded-full `}>Completed</button>
             </div>
             {
-                todos.map((todo:Todo)=>{
-                    return(
-                        <TodoItem key={todo.id} todo={todo}/>
+                filteredTodos?.map((todo: Todo) => {
+                    return (
+                        <TodoItem toggleTodo={toggleTodo} key={todo.id} todo={todo} />
                     )
                 })
             }

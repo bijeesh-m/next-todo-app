@@ -18,7 +18,6 @@ const TodoForm = ({ setTodos }: PageProps) => {
             isActive: true,
             todoText: todoText
         }
-
         setTodos((prev: Todo[]) => [...prev, newTodo])
         setTodoText("")
     }

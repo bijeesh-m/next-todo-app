@@ -19,7 +19,7 @@ const Todoapp = () => {
       </h1>
       <p className=" font-semibold text-gray-500">Stay organised and get this done!</p>
       <TodoForm setTodos={setTodos} />
-      <TodoList todos={todos} category={category} setCategory={setCategory} />
+      <TodoList setTodos={setTodos} todos={todos} category={category} setCategory={setCategory} />
     </div>
   )
 }
