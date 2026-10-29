@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import TodoItem from './TodoItem'
 import { Todo } from '@/types/todo'
 
@@ -10,7 +10,6 @@ type PageProps = {
 }
 
 const TodoList = ({ category, setCategory, todos, setTodos }: PageProps) => {
-
 
     const filteredTodos = useMemo(() => {
         if (category === "all") {
@@ -26,17 +25,30 @@ const TodoList = ({ category, setCategory, todos, setTodos }: PageProps) => {
 
 
     const toggleTodo = (id: string, checked: boolean) => {
-
         setTodos(todos.map((todo: Todo) => {
             if (todo.id === id) {
                 todo.isActive = !checked
             }
             return todo
         }))
+    }
+
+    const deleteTodo = (id: string) => {
+        setTodos(todos.filter((todo: Todo) => todo.id !== id))
+    }
+
+
+    const saveTodo = (id: string, editText: string) => {
+
+        setTodos(todos.map((todo: Todo) => {
+            if (todo.id === id) {
+                todo.todoText = editText
+            }
+            return todo
+        }))
 
     }
 
-    console.log(todos);
 
 
     return (
@@ -49,7 +61,7 @@ const TodoList = ({ category, setCategory, todos, setTodos }: PageProps) => {
             {
                 filteredTodos?.map((todo: Todo) => {
                     return (
-                        <TodoItem toggleTodo={toggleTodo} key={todo.id} todo={todo} />
+                        <TodoItem  saveTodo={saveTodo}  deleteTodo={deleteTodo} toggleTodo={toggleTodo} key={todo.id} todo={todo} />
                     )
                 })
             }
